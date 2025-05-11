@@ -9,7 +9,7 @@ categories:
 coverImage: "/images/jerry-zhang-ePpaQC2c1xA-unsplash.jpg"
 coverWidth: 16
 coverHeight: 9
-excerpt: Tiến trình và luồng.
+excerpt: Hệ thống phân tán.
 ---
 
 <script>
