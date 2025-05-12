@@ -7,7 +7,7 @@ categories:
   - "web"
   - "css"
   - "markdown"
-coverImage: "Tack.png"
+coverImage: "Tack1.jpg"
 coverWidth: 16
 coverHeight: 9
 excerpt: Tiến trình và luồng.
