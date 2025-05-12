@@ -13,31 +13,7 @@ coverHeight: 9
 excerpt: Tiến trình và luồng.
 ---
 
-mdsvex has automatic, built-in syntax highlighting with [Prism.js](https://prismjs.com/); just include the language name after the triple backticks, like so:
-
-```
-\```css
-/* Your CSS here */
-\```
-```
-
-And that will render just like so:
-
-```css
-.my-css-class {
-	color: #ffd100;
-	box-sizing: border-box;
-	/* etc... */
-}
-```
-
-Here's how you'd do JavaScript:
-
-```
-\```js
-// You can use js or javascript for the language
-\```
-```
+Lương Trung Hiếu - 22010422
 
 1. **Phân tích hiệu năng máy cá nhân**  
 **Thông tin máy:**  
