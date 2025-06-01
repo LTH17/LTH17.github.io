@@ -1,230 +1,124 @@
-# SvelteKit static blog starter
+# <span style="color:#1E90FF">DELIVERABLE 4 – WEBSITE</span>
 
-This starter contains everything you need to get up and running with
-[SvelteKit](https://kit.svelte.dev/) as a static site generator for your
-Markdown (and Svelte)-powered blog.
-[Check out the demo here](https://sveltekit-static-starter.netlify.app/), or
-view the
-[GitHub repo here](https://github.com/josh-collinsworth/sveltekit-blog-starter).
+**Published:** 2025-06-02  
+**Updated:** 2025-06-01
 
-## Features
+---
 
-- 🎉 **Fully up-to-date with SvelteKit 2 and Svelte 5!**
-- ⚡️ **Super fast static site generation with hydration**. Every route is
-  compiled down to static HTML and routed with (optional) JavaScript, thanks to
-  the SvelteKit static adapter (pre-installed)
-- 📦 **Zero-config preloading** for automatic, fast background preloading of all
-  top-level pages
-- ✍️ **Markdown support** with a pre-configured blog
-  - 📑 **Pagination** included (_can customize posts per page_)
-  - ✅ **Category pages** included
-  - 💬 **Posts JSON API**
-- 📝 **mdsvex** pre-installed--use Svelte components inside Markdown!
-  - 🔗 **Rehype** plugins are included to generate unique heading IDs, for
-    direct linking
-- 📱 **Responsive and accessible defaults**; includes a "skip to content" link
-  and accessible mobile nav menu
-- 🔄 **Page transitions** (_fancy and customizable!_)
-- 🔎 **Basic SEO** for blog posts (_strongly recommend checking that out for
-  yourself, though_)
-- 📰 **RSS feed** set up and ready to go (_though it could also likely benefit
-  from some optimization_); just update `src/lib/config.js`
-- 💈 **Basic CSS ready to use, customize, or remove!** Want to use Sass or
-  Tailwind instead? Just install them!
-  ([Directions for Tailwind can be found here](https://tailwindcss.com/docs/guides/sveltekit).)
-  Prefer to write your own? Delete `static/css` and add your own links in
-  `+layout.svelte`.
-- ℹ️ **Fonts included**. (No more built-in Google tracking.)
+## <span style="color:#1E90FF">Đánh giá hệ thống quản lý phòng khám da liễu</span>
 
-## Quick Start
+Hệ thống quản lý phòng khám da liễu được xây dựng trên nền tảng **Laravel** và **CockroachDB**, triển khai theo kiến trúc phân tán.  
+Dưới đây là báo cáo tổng hợp đánh giá hệ thống theo các tiêu chí của Deliverable 4 trong môn học “Ứng dụng Phân tán”.
 
-Clone or download
-[this repo](https://github.com/josh-collinsworth/sveltekit-blog-starter), then
-install the dependencies and run the dev server:
+---
 
-```
-npx degit https://github.com/josh-collinsworth/sveltekit-blog-starter my-sveltekit-blog
-cd my-sveltekit-blog
-npm install
-npm run dev -- --open
-```
+### <span style="color:#1E90FF">1.1. Fault Tolerance (Khả năng chịu lỗi)</span>
 
-That should get a dev server up and running (assuming you have npm and Node
-installed already). Any saved changes to components and styles should
-auto-refresh blazingly fast.
+Hệ thống có thể xử lý lỗi kết nối đến CockroachDB. Laravel tự động bắt lỗi, hiển thị thông báo hợp lý và giữ hệ thống ổn định. CockroachDB hỗ trợ phục hồi tự động từ các node khác.
 
-Now all you need to do is:
+**Kết luận:** Đạt ✅
 
-- Update the `src/lib/config.js` file
-- Drop your Markdown posts into `src/lib/posts`
-- Optionally, customize the styles in `static/css`
+---
 
-GLHF! Details below. 👇
+### <span style="color:#1E90FF">1.2. Distributed Communication (Giao tiếp phân tán)</span>
 
-(_Feel free to
-[open an issue](https://github.com/josh-collinsworth/sveltekit-blog-starter/issues/new)
-if you come across one._)
+Laravel giao tiếp với cụm CockroachDB qua SQL/TCP. Các node hoạt động độc lập, đảm bảo giao tiếp phân tán hiệu quả.
 
-## Customization
+**Kết luận:** Đạt ✅
 
-Be sure to update `src/lib/config.js` to reflect your site's domain,
-preferences, etc. This is also where the nav menu can be updated.
+---
 
-**It's very important to update this file with the specific details of your
-site.** Info from this file is used in your RSS feed and SEO meta tags, so don't
-launch without updating it.
+### <span style="color:#1E90FF">1.3. Sharding hoặc Replication</span>
 
-## Adding new posts
+CockroachDB hỗ trợ tự động sharding và replication. Laravel không cần cấu hình thêm để sử dụng tính năng này. Dữ liệu luôn có bản sao trên các node khác.
 
-Adding new posts is as simple as dropping a new `.md` file into `src/lib/posts`.
-New posts will automatically show up on the site, be added to the posts API, and
-any category pages.
+**Kết luận:** Đạt ✅
 
-A few demo Markdown posts are included, and highlight some of the features of
-this starter. These demo posts can be updated or removed, but it may be best to
-use one as a starting point, just for the frontmatter properties.
+---
 
-If you want to use other frontmatter properties in the template (or just modify
-the layout), make changes in `src/routes/blog/[post]/+page.svelte`.
+### <span style="color:#1E90FF">1.4. Simple Monitoring / Logging</span>
 
-⚠️ **Note: posts should have a `date` and an `excerpt` defined in the
-frontmatter.** They're sorted by `date`, and use `excerpt` in page meta tags
-(for SEO, social sharing, etc.) There are also other frontmatter properties used
-to enhance the site experience, like the `coverWidth` and `coverHeight`, which
-are used in the template to reserve space for the image, minimizing cumulative
-layout shift.
+Hệ thống sử dụng Laravel log tại `storage/logs/laravel.log`.  
+CockroachDB có Admin UI tại cổng `8080` theo dõi node, thời gian phản hồi và truy vấn chậm.
 
-The starter will still work without `date` properties in your posts, but the
-sorting won't be right. Similarly, you can have posts without an `excerpt`, but
-your SEO/social previews will be sub-optimal.
+**Kết luận:** Đạt ✅
 
-Also: while there's no link to it by default, `/blog/category` exists as an
-archive of all your post categories.
+---
 
-### Pagination
+### <span style="color:#1E90FF">1.5. Basic Stress Test</span>
 
-Pagination automatically kicks in once you have more posts than the
-`postsPerPage` option in `src/lib/config.js`. This means you won't see the
-pagination right away unless you either change `postsPerPage` to a very low
-number, or add several more Markdown files to the `src/lib/posts` folder.
+Đã kiểm thử bằng hàng trăm request POST và GET đến các route như:
 
-**Note:** both the normal `/blog` feed _and_ the category feeds at
-`/category/[category]` are automatically paginated.
+- `/appointments`
+- `/doctors`
+- `/invoices`
 
-### RSS
+Dùng công cụ: Apache Bench, Postman Runner. Không có lỗi 500, thời gian phản hồi ổn định.
 
-This starter also includes a basic RSS feed. It's very minimal, so you may want
-to tweak it depending on your XML feed needs, but it _does_ work out of the box.
+**Kết luận:** Đạt ✅
 
-Update the `config` details in `src/lib/config.js` to get your site's unique
-info correct. (You could also pull this info in other places, or add to it, to
-keep things consistent, but that's up to you.)
+---
 
-## CSS
+### <span style="color:#1E90FF">2.1. System Recovery (Khả năng tự khôi phục)</span>
 
-**By default, all CSS in this starter is global vanilla CSS.** It's located in
-`static/css` (linked from `+layout.svelte`).
+CockroachDB có khả năng phục hồi từ node khác khi node chính lỗi. Laravel hỗ trợ kết nối lại. Có thể backup qua CLI.
 
-I didn't use component `<style>` blocks because, while component-based scoped
-CSS is very nice, it can also be hard to track down and update. Since this is a
-starter, I felt it was best to keep all the styles together in one place, and
-let you, the author, decide whether you want to keep them as they are, move to
-scoped CSS instead, or use a mixture.
+**Kết luận:** Đạt ✅
 
-(_Note: previous versions of this starter came with Sass pre-installed. I've
-removed it now because it seems like vanilla CSS is almost entirely as powerful
-as Sass now anyway, and because it's probably easier for people who want it to
-opt in than for those who don't to opt out_.)
+---
 
-## Site navigation menus
+### <span style="color:#1E90FF">2.2. Leader Election</span>
 
-To add or remove pages from the site's navigation menu (in both the header and
-footer), edit the `navItems` array in `src/lib/config.js`. Items there will be
-automatically added to the main menu in the header and footer, and the mobile
-nav menu. They'll also have proper classes and ARIA attributes to show when
-they're the current page.
+CockroachDB thực hiện leader election cho từng shard tự động. Laravel không cần can thiệp. Đảm bảo tính nhất quán.
 
-## Colors
+**Kết luận:** Đạt ✅
 
-This starter has a default color palette (Credit to
-[coolors.co](https://coolors.co/palettes/trending)) but you can easily override
-those in the CSS. The color variable values can be found in
-`static/css/vars.css`.
+---
 
-## Fonts
+### <span style="color:#1E90FF">2.3. Load Balancing</span>
 
-Previously, fonts were loaded from Google Fonts, but now they're hosted locally,
-for moderately better performance and a 100% reduction in tracking.
+CockroachDB triển khai nhiều node kết hợp proxy như HAProxy hoặc Caddy. Laravel cấu hình nhiều host cho balancing/failover.
 
-The fonts in question are
-[Atkinson Hyperlegible](https://brailleinstitute.org/freefont) by the Braille
-Institute, and [Fira Code](https://github.com/tonsky/FiraCode) by Nikita
-Prokopov. The fonts are open-source; please consider supporting the authors.
+**Kết luận:** Đạt ✅
 
-The font files themselves are hosted in `static/fonts`. They are linked from the
-`fonts.css` file, and set in `typography.css`.
+---
 
-## Components
+### <span style="color:#1E90FF">2.4. Consistency Guarantees</span>
 
-This starter includes only a handful of structural components, for the header,
-footer, site nav, posts lists (since lists of posts are repeated in several
-locations), and pagination (plus a couple that are actually just SVG icons).
+CockroachDB dùng isolation `serializable`. Laravel hỗ trợ transaction đảm bảo tính nhất quán dữ liệu.
 
-You're welcome and encouraged to create your own (using them in Markdown is
-fun!); I just didn't want to push authors too far in any component direction
-right off the bat.
+**Kết luận:** Đạt ✅
 
-## Static files
+---
 
-Things that should just live in the site root of the finished site (like a
-`robots.txt` file, favicon, or maybe images) should go in the `static` folder.
-If you link to them, use the root path (e.g., `/images/my.png`, not
-`../static/images/my.png`).
+### <span style="color:#1E90FF">2.5. Security Features</span>
 
-(Placeholder images credit [Unsplash](https://unsplash.com); photographer names
-are in the file names.)
+Laravel sử dụng:
 
-## Building, deploying and hosting
+- `bcrypt` mã hóa mật khẩu  
+- CSRF token  
+- Xác thực JWT hoặc session  
 
-The build command (from package.json) is simply:
+CockroachDB hỗ trợ TLS, xác thực qua user/role.
 
-```
-npm run build
-```
+**Kết luận:** Đạt ✅
 
-You can use that as your build command if your repo is connected to a host like
-Netlify or Vercel, which automatically deploys.
+---
 
-Or, if you prefer, you can run `npm run build` locally to generate the static
-files. That will result in a `build` folder you can upload anywhere a static
-site can be hosted.
+## <span style="color:#1E90FF">3. Tổng kết</span>
 
-Use `npm run preview` _after_ a build to preview the built site locally.
+| Tiêu chí                   | Đánh giá |
+|----------------------------|----------|
+| Fault Tolerance            | ✅ Đạt   |
+| Distributed Communication  | ✅ Đạt   |
+| Sharding/Replication       | ✅ Đạt   |
+| Monitoring/Logging         | ✅ Đạt   |
+| Stress Test                | ✅ Đạt   |
+| System Recovery            | ✅ Đạt   |
+| Leader Election            | ✅ Đạt   |
+| Load Balancing             | ✅ Đạt   |
+| Consistency Guarantees     | ✅ Đạt   |
+| Security Features          | ✅ Đạt   |
 
-## Adding Tailwind
+Hệ thống đã đạt đầy đủ các tiêu chí phân tán cơ bản và có khả năng mở rộng trong tương lai.
 
-[The directions for adding Tailwind can be found in the Tailwind docs, here](https://tailwindcss.com/docs/guides/sveltekit).
-
-The only thing worth noting is: this starter's existing CSS files won't be in
-the Tailwind path after following those steps. You can either just delete them
-and start from scratch; or, you can copy the CSS into your Tailwind `app.css`
-file. (Or, move the CSS files into `src/lib`, and import each one individually.)
-
-It's up to you. Just note that Tailwind automatically applies some defaults, so
-even if you _do_ choose to keep this starter's default styling, your site might
-not look the same after installing Tailwind. (Headings, for example, just look
-like plain text when using Tailwind, unless classes are applied.)
-
-## Further documentation
-
-I assume at least a little bit of knowledge of SvelteKit and/or similar static
-site generators here, but be sure to read
-[the SvelteKit docs](https://kit.svelte.dev/docs) for more info.
-
-## Contributing
-
-I've tried my best to make sure this starter is up to date with the latest
-SvelteKit, but I'm sure improvements can be made. Feel free to
-[visit the repo](https://github.com/josh-collinsworth/sveltekit-blog-starter)
-and submit a pull request, or
-[contact me directly](https://joshcollinsworth.com/contact).
